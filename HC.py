@@ -10,19 +10,21 @@ def entre_limites(ponto, limites):
 			return False
 	return True
 
-def hc(objetivo, limites, iteracoes, step_size):
+def hc(objetivo, limites, iteracoes, p):
 	# Inicialização
+	ls = limites[:,1]
+	li = limites[:,0]
 	solucao = None
-	while solucao is None or not entre_limites(solucao, limites):
-		solucao = (limites[:, 1] - limites[:, 0]) * rand(len(limites)) + limites[:, 0]
+	while solucao is None or not entre_limites(solucao, limites): #verificando se solucao não esta vazia e dentro dos limites
+		solucao = (ls - li) * rand(len(limites)) + li
 	# Calculando valor da solucao inicial
 	valor_solucao = objetivo(solucao)
 	# Modificação
 	for i in range(iteracoes):
 		# take a step
 		candidato = None
-		while candidato is None or not entre_limites(candidato, limites):
-			candidato = solucao + randn(len(limites)) * step_size
+		while candidato is None or not entre_limites(candidato, limites): #verificando se candidato não esta vazio e dentro dos limites
+			candidato = solucao + randn(len(limites)) * p
 		# Calculando valor de candidato
 		valor_candidato = objetivo(candidato)
 		# Verificando se candidato é melhor

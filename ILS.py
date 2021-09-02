@@ -2,24 +2,14 @@ from numpy.random import seed, rand, randn
 from numpy import pi, e, sin, sqrt, exp, asarray
 from HC import entre_limites
 
-def ils():
-    return
-
 
 #ILS
 
-# Funcao objetivo
-def objetivo(v):
-	x, y = v
-	return (sin(x+y) + pow(x-y, 2) - 1.5*x + 2.5*y + 1)
-
-
 def hillclimbing(objetivo, limites, iteracoes, step_size, solucao_inicial):
-	# Armazenando solucao inicial em variavel
 	solucao = solucao_inicial
 	# Calculando valor da solucao inicial
 	valor_solucao = objetivo(solucao)
-	# executando hillclimbing
+	# Modificação
 	for i in range(iteracoes):
 		# take a step
 		candidato = None
@@ -33,26 +23,26 @@ def hillclimbing(objetivo, limites, iteracoes, step_size, solucao_inicial):
 			solucao, valor_solucao = candidato, valor_candidato
 	return [solucao, valor_solucao]
 
-# iterated local search algorithm
-
-def iterated_local_search(objetivo, limites, n_iter, step_size, reinicios, p_size):
+def ils(objetivo, limites, iteracoes, step_size, reinicios, Tam_P):
 	# definindo ponto de partida
 	melhor = None
-	while melhor is None or not entre_limites(melhor, limites):
-		melhor = limites[:, 0] + rand(len(limites)) * (limites[:, 1] - limites[:, 0])
+	li = limites[:,0]
+	ls = limites[:,1]
+	while melhor is None or not entre_limites(melhor, limites): #verificando se melhor não esta vazio e dentro dos limites
+		melhor = (ls - li) * rand(len(limites)) + li
 	# Calculando valor do ponto inicial
 	valor_melhor = objetivo(melhor)
-	# Enumerando reinicios 
+	# reinicios 
 	for n in range(reinicios):
 		# gerando um ponto inicial como uma versão perturbada do último melhor
-		start_pt = None
-		while start_pt is None or not entre_limites(start_pt, limites):
-			start_pt = melhor + randn(len(limites)) * p_size
+		ponto_inicial = None
+		while ponto_inicial is None or not entre_limites(ponto_inicial, limites): #verificando se candidato não esta vazio e dentro dos limites
+			ponto_inicial = melhor + randn(len(limites)) * Tam_P
 		# perform a stochastic hill climbing search
-		solucao, valor_solucao_encontrada = hillclimbing(objetivo, limites, n_iter, step_size, start_pt)
+		solucao, valor = hillclimbing(objetivo, limites, iteracoes, step_size, ponto_inicial)
 		# Verificando se solução encontrada é melhor que melhor atual
-		if valor_solucao_encontrada < valor_melhor:
-			melhor, valor_melhor = solucao, valor_solucao_encontrada
+		if valor < valor_melhor:
+			melhor, valor_melhor = solucao, valor
 			#print("-> Reinicio: ",n,"-> Melhor: X =  ", melhor[0], " , Y = ", melhor[1],"-> Valor:", valor_melhor)
 	return [melhor, valor_melhor]
 
