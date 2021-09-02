@@ -1,42 +1,59 @@
 from numpy.random import seed, rand, randn
 from numpy import pi, e, sin, sqrt, exp, asarray
-from HC import hillclimbing, in_bounds
+from HC import entre_limites
 
 def ils():
     return
 
 
-# iterated local search of the ackley objective function
+#ILS
 
-# objective function
-
-def objective(v):
+# Funcao objetivo
+def objetivo(v):
 	x, y = v
 	return (sin(x+y) + pow(x-y, 2) - 1.5*x + 2.5*y + 1)
 
+
+def hillclimbing(objetivo, limites, iteracoes, step_size, solucao_inicial):
+	# Armazenando solucao inicial em variavel
+	solucao = solucao_inicial
+	# Calculando valor da solucao inicial
+	valor_solucao = objetivo(solucao)
+	# executando hillclimbing
+	for i in range(iteracoes):
+		# take a step
+		candidato = None
+		while candidato is None or not entre_limites(candidato, limites):
+			candidato = solucao + randn(len(limites)) * step_size
+		# Calculando valor de candidato
+		valor_candidato = objetivo(candidato)
+		# Verificando se candidato é melhor
+		if valor_candidato <= valor_solucao:
+			# Armazene novas soluções
+			solucao, valor_solucao = candidato, valor_candidato
+	return [solucao, valor_solucao]
+
 # iterated local search algorithm
 
-def iterated_local_search(objective, bounds, n_iter, step_size, n_restarts, p_size):
-	# define starting point
-	best = None
-	while best is None or not in_bounds(best, bounds):
-		best = bounds[:, 0] + rand(len(bounds)) * (bounds[:, 1] - bounds[:, 0])
-	# evaluate current best point
-	best_eval = objective(best)
-	# enumerate restarts
-	for n in range(n_restarts):
-		# generate an initial point as a perturbed version of the last best
+def iterated_local_search(objetivo, limites, n_iter, step_size, reinicios, p_size):
+	# definindo ponto de partida
+	melhor = None
+	while melhor is None or not entre_limites(melhor, limites):
+		melhor = limites[:, 0] + rand(len(limites)) * (limites[:, 1] - limites[:, 0])
+	# Calculando valor do ponto inicial
+	valor_melhor = objetivo(melhor)
+	# Enumerando reinicios 
+	for n in range(reinicios):
+		# gerando um ponto inicial como uma versão perturbada do último melhor
 		start_pt = None
-		while start_pt is None or not in_bounds(start_pt, bounds):
-			start_pt = best + randn(len(bounds)) * p_size
+		while start_pt is None or not entre_limites(start_pt, limites):
+			start_pt = melhor + randn(len(limites)) * p_size
 		# perform a stochastic hill climbing search
-		solution, solution_eval = hillclimbing(
-		    objective, bounds, n_iter, step_size, start_pt)
-		# check for new best
-		if solution_eval < best_eval:
-			best, best_eval = solution, solution_eval
-			print('Restart %d, best: f(%s) = %.5f' % (n, best, best_eval))
-	return [best, best_eval]
-
+		solucao, valor_solucao_encontrada = hillclimbing(objetivo, limites, n_iter, step_size, start_pt)
+		# Verificando se solução encontrada é melhor que melhor atual
+		if valor_solucao_encontrada < valor_melhor:
+			melhor, valor_melhor = solucao, valor_solucao_encontrada
+			#print("-> Reinicio: ",n,"-> Melhor: X =  ", melhor[0], " , Y = ", melhor[1],"-> Valor:", valor_melhor)
+	return [melhor, valor_melhor]
 
 

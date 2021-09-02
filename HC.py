@@ -1,36 +1,33 @@
 from numpy.random import seed, rand, randn
-from numpy import pi, e, cos, sqrt, exp, asarray
 
-def hc():
-    return
+#HC
 
-# hill climbing local search algorithm
-# check if a point is within the bounds of the search
-
-
-def in_bounds(point, bounds):
-	# enumerate all dimensions of the point
-	for d in range(len(bounds)):
-		# check if out of bounds for this dimension
-		if point[d] < bounds[d, 0] or point[d] > bounds[d, 1]:
+def entre_limites(ponto, limites):
+	# enumerando as dimensões do array de limites
+	for d in range(len(limites)):
+		# verificando se está fora dos limites para a dimensão d
+		if ponto[d] < limites[d, 0] or ponto[d] > limites[d, 1]:
 			return False
 	return True
 
-def hillclimbing(objective, bounds, n_iterations, step_size, start_pt):
-	# store the initial point
-	solution = start_pt
-	# evaluate the initial point
-	solution_eval = objective(solution)
-	# run the hill climb
-	for i in range(n_iterations):
+def hc(objetivo, limites, iteracoes, step_size):
+	# Inicialização
+	solucao = None
+	while solucao is None or not entre_limites(solucao, limites):
+		solucao = (limites[:, 1] - limites[:, 0]) * rand(len(limites)) + limites[:, 0]
+	# Calculando valor da solucao inicial
+	valor_solucao = objetivo(solucao)
+	# Modificação
+	for i in range(iteracoes):
 		# take a step
-		candidate = None
-		while candidate is None or not in_bounds(candidate, bounds):
-			candidate = solution + randn(len(bounds)) * step_size
-		# evaluate candidate point
-		candidte_eval = objective(candidate)
-		# check if we should keep the new point
-		if candidte_eval <= solution_eval:
-			# store the new point
-			solution, solution_eval = candidate, candidte_eval
-	return [solution, solution_eval]
+		candidato = None
+		while candidato is None or not entre_limites(candidato, limites):
+			candidato = solucao + randn(len(limites)) * step_size
+		# Calculando valor de candidato
+		valor_candidato = objetivo(candidato)
+		# Verificando se candidato é melhor
+		if valor_candidato <= valor_solucao:
+			# Armazenando novas soluções
+			solucao, valor_solucao = candidato, valor_candidato
+			#print("-> Iteracao: ", i, " ->X:", solucao[0], " ->Y: ", solucao[1], "-> Valor:", valor_solucao)
+	return [solucao, valor_solucao]

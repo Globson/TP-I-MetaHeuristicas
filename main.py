@@ -1,15 +1,20 @@
-from numpy import sin ,sqrt
+'''
+Samuel Pedro Campos Sena - EF3494
+Trabalho prático 1 - CCF480 - MetaHeurísticas
+'''
 from numpy.random import seed, rand, randn
-from numpy import pi, e, cos, sqrt, exp, asarray
-from ILS import ils, iterated_local_search, objective
+from numpy import sin, sqrt, asarray
+from ILS import ils, iterated_local_search, objetivo
 from HC import hc
 
-def func_objetivo1(x, y):
+def objetivo1(v):
+    x, y = v
     return (sin(x+y) + pow(x-y, 2) - 1.5*x + 2.5*y + 1)
 
 
-def func_objetivo2(x, y):
-    return (-sin(y+47)*sin(sqrt(abs(x/2 + (y+47)))) - x*sin(sqrt(abs(x-y+47))))
+def objetivo2(v):
+    x, y = v
+    return (-(y+47)*sin(sqrt(abs(x/2 + (y+47)))) - x*sin(sqrt(abs(x-y+47))))
 
 
 #1
@@ -26,23 +31,31 @@ Resultados2A_ILS = []
 Resultados2A_HC = []
 Resultados2B_ILS = []
 Resultados2B_HC = []
-#fazer 30 vezes para cad funcao objetivo e algoritmo, adicionar em listas correspondentes
+#fazer 30 vezes para cada funcao objetivo e algoritmo, adicionar em listas correspondentes
 
 
-# seed the pseudorandom number generator
+# adicionando seed de gerador rand
 seed(1)
+
 # define range for input
-bounds = asarray([[-1.5, 4], [-3, 4]])
+limites = asarray([[-1.5, 4], 
+                    [-3, 4]])
+
 # define the total iterations
-n_iter = 1000
+iteracoes = 1000
+
 # define the maximum step size
-s_size = 0.05
-# total number of random restarts
-n_restarts = 30
+step_size = 0.05
+
+# Quantidade de reinicios aleatorios
+reinicios = 30
+
 # perturbation step size
 p_size = 1.0
+
 # perform the hill climbing search
-best, score = iterated_local_search(
-    objective, bounds, n_iter, s_size, n_restarts, p_size)
-print('Done!')
-print('f(%s) = %f' % (best, score))
+melhor, valor = iterated_local_search(objetivo, limites, iteracoes, step_size, reinicios, p_size)
+print('Sucesso!')
+print('ILS: X: %f Y: %f = %f' % (melhor[0], melhor[1], valor))
+melhor, valor = hc(objetivo, limites, iteracoes, step_size)
+print('HC: X: %f Y: %f = %f' % (melhor[0],melhor[1], valor))
