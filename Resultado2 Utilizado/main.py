@@ -20,7 +20,7 @@ def objetivo1(v):
 
 def objetivo2(v):
     x, y = v
-    return (-(y+47)*sin(sqrt(abs((x/2) + (y+47)))) - x*sin(sqrt(abs(x-(y+47)))))
+    return (-(y+47)*sin(sqrt(abs(x/2 + (y+47)))) - x*sin(sqrt(abs(x-y+47))))
 
 
 #1
