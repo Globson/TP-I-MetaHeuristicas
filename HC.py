@@ -23,7 +23,7 @@ def hc(objetivo, limites, iteracoes, Tam_passo):
 	for i in range(iteracoes):
 		candidato = None
 		while candidato is None or not entre_limites(candidato, limites): #verificando se candidato não esta vazio e dentro dos limites
-			candidato = solucao + randn(len(limites)) * Tam_passo #Tamanho do passo 
+			candidato = solucao + randn(len(limites)) * Tam_passo #Tamanho do passo (Pertubação)
 		# Calculando valor de candidato
 		valor_candidato = objetivo(candidato)
 		# Verificando se candidato é melhor

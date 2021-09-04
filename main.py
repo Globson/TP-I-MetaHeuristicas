@@ -2,6 +2,11 @@
 Samuel Pedro Campos Sena - EF3494
 Trabalho prático 1 - CCF480 - MetaHeurísticas
 '''
+
+'''
+numpy.random.randn gera amostras a partir da distribuição normal, 
+enquanto numpy.random.rand a partir de uma distribuição uniforme (no intervalo [0,1)).
+'''
 from numpy.random import seed, rand, randn
 from numpy import sin, sqrt, asarray, mean, std
 from ILS import ils
@@ -49,42 +54,42 @@ limites2c = asarray([[-512., 512.],
 
 limites2d = asarray([[511., 512.],
                      [404., 405.]])
-# define the total iterations
+# Definindo quantidade de iterações
 iteracoes = 1000
 
-# define the maximum step size
-step_size = 1
+# Definindo tamanho do passo (pertubação) para HC
+Tam_passoHC = 1.0
 
 # Quantidade de reinicios aleatorios
 reinicios = 30
 
-# Tamanho da pertubacao
+# Tamanho da pertubacao do ILS
 Tam_P = 1.0 #padrao
 
-# perform the hill climbing search
-melhor, valor = ils(objetivo2, limites2c, iteracoes, step_size, reinicios, Tam_P)
+
+melhor, valor = ils(objetivo1, limites1a, iteracoes, Tam_passoHC, reinicios, Tam_P)
 print('Sucesso!')
 print('ILS: X: %f Y: %f = %f' % (melhor[0], melhor[1], valor))
-melhor, valor = hc(objetivo2, limites2c, iteracoes, step_size)
+melhor, valor = hc(objetivo1, limites1a, iteracoes, Tam_passoHC)
 print('HC: X: %f Y: %f = %f' % (melhor[0],melhor[1], valor))
 
 '''
 for i in range(30):
-    _ , valor = iterated_local_search(objetivo1, limites1a, iteracoes, step_size, reinicios, Tam_P)
+    _ , valor = iterated_local_search(objetivo1, limites1a, iteracoes, Tam_passoHC, reinicios, Tam_P)
     Resultados1A_ILS.append(valor)
-    _ , valor = melhor, valor = hc(objetivo1, limites1a, iteracoes, step_size)   
+    _ , valor = melhor, valor = hc(objetivo1, limites1a, iteracoes, Tam_passoHC)   
     Resultados1A_HC.append(valor)
-    _ , valor = iterated_local_search(objetivo1, limites1b, iteracoes, step_size, reinicios, Tam_P)
+    _ , valor = iterated_local_search(objetivo1, limites1b, iteracoes, Tam_passoHC, reinicios, Tam_P)
     Resultados1B_ILS.append(valor)
-    _ , valor = melhor, valor = hc(objetivo1, limites1b, iteracoes, step_size)   
+    _ , valor = melhor, valor = hc(objetivo1, limites1b, iteracoes, Tam_passoHC)   
     Resultados1B_HC.append(valor)
-    _ , valor = iterated_local_search(objetivo2, limites2c, iteracoes, step_size, reinicios, Tam_P)
+    _ , valor = iterated_local_search(objetivo2, limites2c, iteracoes, Tam_passoHC, reinicios, Tam_P)
     Resultados2C_ILS.append(valor)
-    _ , valor = melhor, valor = hc(objetivo2, limites2c, iteracoes, step_size)   
+    _ , valor = melhor, valor = hc(objetivo2, limites2c, iteracoes, Tam_passoHC)   
     Resultados2C_HC.append(valor)
-    _ , valor = iterated_local_search(objetivo2, limites2d, iteracoes, step_size, reinicios, Tam_P)
+    _ , valor = iterated_local_search(objetivo2, limites2d, iteracoes, Tam_passoHC, reinicios, Tam_P)
     Resultados2D_ILS.append(valor)
-    _ , valor = melhor, valor = hc(objetivo2, limites2d, iteracoes, step_size)   
+    _ , valor = melhor, valor = hc(objetivo2, limites2d, iteracoes, Tam_passoHC)   
     Resultados2D_HC.append(valor)
 
 print("1 - a)")
