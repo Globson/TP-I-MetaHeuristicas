@@ -5,6 +5,7 @@ from HC import entre_limites
 
 #ILS
 
+#Utilizando hillclimbing para busca local em ILS
 def hillclimbing(objetivo, limites, iteracoes, Tam_passoHC, solucao_inicial):
 	solucao = solucao_inicial
 	# Calculando valor da solucao inicial
@@ -37,7 +38,7 @@ def ils(objetivo, limites, iteracoes, Tam_passoHC, reinicios, Tam_P):
 		ponto_inicial = None
 		while ponto_inicial is None or not entre_limites(ponto_inicial, limites): #verificando se candidato não esta vazio e dentro dos limites
 			ponto_inicial = melhor + randn(len(limites)) * Tam_P #Pertubando 
-		# perform a stochastic hill climbing search
+		#Utilizando hillclimbing para busca local em ILS
 		solucao, valor = hillclimbing(objetivo, limites, iteracoes, Tam_passoHC, ponto_inicial)
 		# Verificando se solução encontrada é melhor que melhor atual
 		if valor < valor_melhor:

@@ -40,7 +40,7 @@ Resultados2D_HC = []
 
 
 # adicionando seed de gerador rand
-seed(1)
+seed()
 
 # definindo limites
 limites1a = asarray([[-1.5, 4.], 
@@ -60,11 +60,11 @@ iteracoes = 1000
 # Definindo tamanho do passo (pertubação) para HC
 Tam_passoHC = 1.0
 
-# Quantidade de reinicios aleatorios
-reinicios = 30
+# Quantidade de reinicios em ILS (tentativa de buscas em novas bacias)
+reinicios = 50
 
 # Tamanho da pertubacao do ILS
-Tam_P = 1.0 #padrao
+Tam_P = 1.5 
 
 
 melhor, valor = ils(objetivo1, limites1a, iteracoes, Tam_passoHC, reinicios, Tam_P)
