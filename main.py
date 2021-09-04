@@ -4,8 +4,9 @@ Trabalho prático 1 - CCF480 - MetaHeurísticas
 '''
 
 '''
-numpy.random.randn gera amostras a partir da distribuição normal, 
-enquanto numpy.random.rand a partir de uma distribuição uniforme (no intervalo [0,1)).
+Referências utilizadas:
+https://machinelearningmastery.com/stochastic-hill-climbing-in-python-from-scratch/. Acesso em: 31 ago. 2021.
+https://machinelearningmastery.com/iterated-local-search-from-scratch-in-python/. Acesso em: 31 ago. 2021.
 '''
 import matplotlib.pyplot as plt
 from numpy.random import seed, rand, randn
