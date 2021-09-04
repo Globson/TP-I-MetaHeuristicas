@@ -14,9 +14,8 @@ def hc(objetivo, limites, iteracoes, Tam_passo):
 	# Inicialização
 	ls = limites[:,1] #Limite Superior
 	li = limites[:,0] #Limite Inferior
-	solucao = None
-	while solucao is None or not entre_limites(solucao, limites): #verificando se solucao não esta vazia ou fora dos limites
-		solucao = (ls - li) * rand(len(limites)) + li #Vi = (LSi - LIi) * ri +Lii
+	#De acordo com o slide, isso garante que ponto inicial aleatorio esteja dentro do intervalo limite.
+	solucao = (ls - li) * rand(len(limites)) + li #V = (Ls - Li) * ri +Li 
 	# Calculando valor da solucao inicial
 	valor_solucao = objetivo(solucao)
 	# Modificação
