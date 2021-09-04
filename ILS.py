@@ -24,17 +24,19 @@ def hillclimbing(objetivo, limites, iteracoes, Tam_passoHC, solucao_inicial):
 	return [solucao, valor_solucao]
 
 def ils(objetivo, limites, iteracoes, Tam_passoHC, reinicios, Tam_P):
-	# definindo ponto de partida
-	melhor = None
+	# definindo ponto de partida inicial
+	inicial = None
 	li = limites[:,0]
 	ls = limites[:,1]
-	while melhor is None or not entre_limites(melhor, limites): #verificando se melhor não esta vazio e dentro dos limites
-		melhor = (ls - li) * rand(len(limites)) + li
+	while inicial is None or not entre_limites(inicial, limites): #verificando se melhor não esta vazio e dentro dos limites
+		inicial = (ls - li) * rand(len(limites)) + li #gerando valor inicial aleatoriamente
 	# Calculando valor do ponto inicial
-	valor_melhor = objetivo(melhor)
+	#valor_inicial = objetivo(inicial)
+	#encontrando melhor local para ponto de partida inicial utilizando HC
+	melhor , valor_melhor = hillclimbing(objetivo, limites, iteracoes, Tam_passoHC, inicial)
 	# reinicios 
 	for n in range(reinicios):
-		# gerando um ponto inicial como uma versão perturbada do último melhor
+		# gerando um ponto inicial de cada reinicio como uma versão perturbada do último melhor
 		ponto_inicial = None
 		while ponto_inicial is None or not entre_limites(ponto_inicial, limites): #verificando se candidato não esta vazio e dentro dos limites
 			ponto_inicial = melhor + randn(len(limites)) * Tam_P #Pertubando 
